@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Management Monitoring System 2025</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .nav-tab {
+            flex: 1;
+            padding: 15px 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: #6c757d;
+        }
+        
+        .nav-tab.active {
+            background: white;
+            color: #1e3c72;
+            border-bottom: 3px solid #1e3c72;
+        }
+        
+        .nav-tab:hover {
+            background: #e9ecef;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .metric-card {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .metric-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .metric-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .lag-measure .metric-icon {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            color: white;
+        }
+        
+        .lead-measure .metric-icon {
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+            color: white;
+        }
+        
+        .metric-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+        
+        .metric-type {
+            font-size: 0.8rem;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .lag-measure .metric-type {
+            background: #ffe3e3;
+            color: #e74c3c;
+        }
+        
+        .lead-measure .metric-type {
+            background: #e3f8f7;
+            color: #16a085;
+        }
+        
+        .metric-description {
+            color: #6c757d;
+            margin-bottom: 15px;
+        }
+        
+        .metric-details {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+        
+        .formula {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            margin: 10px 0;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .scoring-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 0.9rem;
+        }
+        
+        .scoring-table th,
+        .scoring-table td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #dee2e6;
+        }
+        
+        .scoring-table th {
+            background: #1e3c72;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .score-4 { background: #d4edda; color: #155724; }
+        .score-3 { background: #fff3cd; color: #856404; }
+        .score-2 { background: #f8d7da; color: #721c24; }
+        .score-1 { background: #0d0d0d; color: #f8f9fb; }
+        
+        .variables-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .variables-list li {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 12px 15px;
+            margin: 8px 0;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .variables-list li:hover {
+            border-color: #1e3c72;
+            box-shadow: 0 3px 10px rgba(30, 60, 114, 0.1);
+        }
+        
+        .variable-icon {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            color: white;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+        
+        .section-header {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 20px;
+            border-radius: 15px 15px 0 0;
+            margin: 30px 0 0 0;
+        }
+        
+        .section-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+        
+        .section-content {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 0 0 15px 15px;
+            padding: 25px;
+        }
+        
+        .improvement-badge {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-left: 10px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        .alert {
+            background: #e7f3ff;
+            border: 1px solid #b8daff;
+            border-left: 4px solid #007bff;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            border-color: #c3e6cb;
+            border-left-color: #28a745;
+        }
+        
+        .dashboard-preview {
+            background: #f8f9fa;
+            border: 2px dashed #dee2e6;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .dashboard-preview h4 {
+            color: #6c757d;
+            margin-bottom: 10px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(30, 60, 114, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Sales Management Monitoring System 2025</h1>
+            <p>Comprehensive Framework for Retail & Industrial Sales Performance</p>
+        </div>
+        
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showTab('retail')">🏪 Sales Retail</button>
+            <button class="nav-tab" onclick="showTab('industrial')">🏭 Sales Industrial</button>
+            <button class="nav-tab" onclick="showTab('framework')">⚙️ Framework</button>
+            <button class="nav-tab" onclick="showTab('dashboard')">📈 Dashboard</button>
+        </div>
+        
+        <div class="content">
+            <!-- RETAIL TAB -->
+            <div id="retail" class="tab-content active">
+                <div class="alert alert-success">
+                    <strong>🎯 Fokus Retail:</strong> Customer relationship, frequency transaksi, penetrasi pasar melalui pengembangan outlet, dan perilaku pembayaran
+                </div>
+                
+                <div class="metrics-grid">
+                    <!-- Revenue Performance -->
+                    <div class="metric-card lag-measure">
+                        <div class="metric-header">
+                            <div class="metric-icon">💰</div>
+                            <div>
+                                <div class="metric-title">Revenue/Tonnage Performance</div>
+                                <span class="metric-type">Lag Measure</span>
+                            </div>
+                        </div>
+                        <div class="metric-description">
+                            Analisa performa omzet dengan trend 3 tahun dan seasonal adjustment
+                        </div>
+                        <div class="metric-details">
+                            <strong>Metrics:</strong>
+                            <ul>
+                                <li>Growth YTD (This Year) vs Target</li>
+                                <li>YoY Growth Rate (3 tahun)</li>
+                                <li>Monthly Growth Trend</li>
+                                <li>Market Share by Territory (WB/SB/Blek)</li>
+                                <li>Data 6 tahunan tetap dimunculkan</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Customer Segmentation (RFM) -->
+                    <div class="metric-card lag-measure">
+                        <div class="metric-header">
+                            <div class="metric-icon">👥</div>
+                            <div>
+                                <div class="metric-title">Customer Segmentation (RFM) <span class="improvement-badge">IMPROVED</span></div>
+                                <span class="metric-type">Lag Measure</span>
+                            </div>
+                        </div>
+                        <div class="metric-description">
+                            Segmentasi customer menggunakan RFM dengan bobot yang dihitung berdasarkan customer group dan cabang. Kemudia di buat segment 1 s/d 4
+                        </div>
+                        <div class="formula">
+                            RFM Bobot = (R × 0.25) + (F × 0.35) + (M × 0.40)
+                        </div>
+                        <div class="metric-details">
+                            Setelah perhitungan bobot, hasil actual transaksi di mapping berdasarkan bobot untuk masing-masing bagian R,F dan M, kemudian hasilnya dijumlah dan menghasilkan score
+                            <table class="scoring-table">
+                                <tr>
+                                    <th>Score</th>
+                                    <th>Segment</th>
+                                    <th>Action</th>
+                                </tr>
+                                <tr class="score-4">
+                                    <td>3.5 - 4.0</td>
+                                    <td>Champions</td>
+                                    <td>Reward & Retain</td>
+                                </tr>
+                                <tr class="score-3">
+                                    <td>2.5 - 3.4</td>
+                                    <td>Loyal</td>
+                                    <td>Upsell & Cross-sell</td>
+                                </tr>
+                                <tr class="score-2">
+                                    <td>1.5 - 2.4</td>
+                                    <td>At Risk</td>
+                                    <td>Re-engagement</td>
+                                </tr>
+                                <tr class="score-1">
+                                    <td>1.0 - 1.4</td>
+                                    <td>Lost</td>
+                                    <td>Win-back Campaign</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- New Outlet & Reactivation -->
+                    <div class="metric-card lead-measure">
+                        <div class="metric-header">
+                            <div class="metric-icon">🏪</div>
+                            <div>
+                                <div class="metric-title">NOO & Reaktivasi Outlet <span class="improvement-badge">DEFINED</span></div>
+                                <span class="metric-type">Lead Measure</span>
+                            </div>
+                        </div>
+                        <div class="metric-description">
+                            NOO dihitung dari tanggal registrasi dan bertransaksi di Dynamics AX. Reaktivasi outlet adalah outlet yang tidak bertransaksi dalam periode tertentu lalu kembali aktif.
+                        </div>
+                        <div class="metric-details">
+                            <strong>Poin penting seputar reaktivasi :</strong>
+                            <ul class="variables-list">
+                                <li><div class="variable-icon">1</div> Periode inactive (>= 3 bulan tidak order)</li>
+                                <li><div class="variable-icon">2</div> Historical Value (avg monthly purchase)</li>
+                                <li><div class="variable-icon">3</div> Geographic Accessibility</li>
+                                <li><div class="variable-icon">4</div> Payment History Score</li>
+                            </ul>
+                        </div>
+                        <div class="metric-details">
+                            <strong>NOO Metrics:</strong>
+                            <ul>
+                                <li>NOO per bulan dan wilayah</li>
+                                <li>Bandingkan dengan target NOO per bulan (target menyusul)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Active Customer Classification -->
+                    
+                    <div class="metric-card lag-measure">
+                        <div class="metric-header">
+                            <div class="metric-icon">⚡</div>
+                            <div>
+                                <div class="metric-title">Customer Vitality <span class="improvement-badge">ENHANCED</span></div>
+                                <span class="metric-type">Lag Measure</span>
+                            </div>
+                        </div>
+                        <div class="metric-description">
+                            Mengukur kestabilan volume pembelian pelanggan aktif berdasarkan perbandingan rata-rata tonase historis dengan tahun berjalan
+                        </div>
+                        <div class="metric-details">
+                            <strong>Enhanced Formula:</strong> 
+                            <div style="background: #f8f9fa; padding: 10px; border-radius: 5px; margin: 10px 0;">
+                                Perbandingan average tonase 3 tahun lalu vs average berjalan tahun ini
+                            </div>
+                            <strong>Kategori :</strong>
+                            <ul>
+                                <li>Kategori Growing  > 100% </li>
+                                <li>Kategori Aktif >= 95 %</li>
+                                <li>Kategori Cenderung Trurun >= 90%</li>
+                                <li>Kategori Zombie < 90%</li>
+                                <!--
+                                <li>Kategori Aktif  >= 85% </li>
+                                <li>Kategori Biasa >= 70 %</li>
+                                <li>Kategori Cenderung Trurun > 0%</li>
+                                <li>Kategori Dead = 0%</li>
+                                -->
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Payment Behavior -->
+                    <div class="metric-card lag-measure">
+                        <div class="metric-header">
+                            <div class="metric-icon">💳</div>
+                            <div>
+                                <div class="metric-title">Payment Behavior Analysis</div>
+                                <span class="metric-type">Lag Measure</span>
+                            </div>
+                        </div>
+                        <div class="metric-description">
+                            Menilai kedisiplinan pelanggan melunasi tagihan. Analisis dilakukan untuk invoice lunas (close) dan invoice berjalan (open) dengan skor keterlambatan
+                        </div>
+                        <div class="metric-details">
+                            <table class="scoring-table">
+                                <tr>
+                                    <th>Delay Range</th>
+                                    <th>Category</th>
+                                    <th>Score</th>
+                                    <th>Risk Level</th>
+                                </tr>
+                                <tr class="score-4">
+                                    <td>≤ 0 days</td>
+                                    <td>Excellent</td>
+                                    <td>4</td>
+                                    <td>Low</td>
+                                </tr>
+                                <tr class="score-3">
+                                    <td>1-7 days</td>
+                                    <td>Good</td>
+                                    <td>3</td>
+                                    <td>Medium</td>
+                                </tr>
+                                <tr class="score-0">
+                                    <td>8-30 days</td>
+                                    <td>Attention</td>
+                                    <td>2</td>
+                                    <td>High</td>
+                                </tr>
+                                <tr class="score-2">
+                                    <td>31-60 days</td>
+                                    <td>Warning</td>
+                                    <td>1</td>
+                                    <td>High</td>
+                                </tr>
+                                <tr class="score-1">
+                                    <td> >60 days</td>
+                                    <td>Critical</td>
+                                    <td>1</td>
+                                    <td>Very High</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Sales Conversion -->
+                    <div class="metric-card lead-measure">
+                        <div class="metric-header">
+                            <div class="metric-icon">🎯</div>
+                            <div>
+                                <div class="metric-title">Sales Conversion Funnel</div>
+                                <span class="metric-type">Lead Measure</span>
+                            </div>
+                        </div>
+                        <div class="metric-description">
+                            Tracking conversion rate dari prospek hingga deal closing
+                        </div>
+                        <div class="metric-details">
+                            <strong>Funnel Stages:</strong>
+                            <ul>
+                                <li>Lead Generation Rate</li>
+                                <li>First Visit Conversion</li>
+                                <li>Second Visit Conversion</li>
+                                <li>Deal Closing Rate</li>
+                                <li>Average Sales Cycle</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="metric-card lead-measure">
+                        <div class="metric-header">
+                            <div class="metric-icon">💡</div>
+                            <div>
+                                <div class="metric-title">Analisis Pertumbuhan SKU <span class="improvement-badge">NEW</span></div>
+                                <span class="metric-type">Lead Measure</span>
+                            </div>
+                        </div>
+                        <div class="metric-description">
+                            Fokus pada top 15 SKU dan analisis pertumbuhan dalam tiga tahun terakhir
+                        </div>
+                        <div class="metric-details">
+                            <strong>Metrics:</strong>
+                            <ul>
+                                <li>SKU Kontribusi Terbesar</li>
+                                <li>Tren YoY per SKU</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="metric-card lag-measure">
+                        <div class="metric-header">
+                            <div class="metric-icon">🤝</div>
+                            <div>
+                                <div class="metric-title">Penetrasi Pasar <span class="improvement-badge">NEW</span></div>
+                                <span class="metric-type">Lag Measure</span>
+                            </div>
+                        </div>
+                        <div class="metric-description">
+                            Mengukur tingkat penguasaan pasar melalui outlet terdaftar, outlet aktif, dan data universe.
+                        </div>
+                        <div class="metric-details">
+                            <strong>Metrics:</strong>
+                            <ul>
+                                <li>% Registered Outlet</li>
+                                <li>% Active Outlet</li>
+                                <li>% Data Universe</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- INDUSTRIAL TAB -->
+            <div id="industrial" class="tab-content">
+                <div class="alert alert-success">
+                    <strong>🎯 Fokus Industrial:</strong> Project pipeline, contract value, dan long-term partnership development
+                </div>
+                
+                <div class="metrics-grid">
+                    <!-- Project Pipeline -->
+                    <div class="metric-card lead-measure">
+                        <div class="metric-header">
+                            <div class="metric-icon">🔧</div>
+                            <div>
+                                <div class="metric-title">Project Pipeline Management</div>
+                                <span class="metric-type">Lead Measure</span>
+                            </div>
+                        </div>
+                        <div class="metric-description">
+                            Monitoring pipeline proyek dengan probabilitas dan timeline yang jelas
+                        </div>
+                        <div class="metric-details">
+                            <strong>Pipeline Stages:</strong>
+                            <ul>
+                                <li>Qualified Leads (Prob: 20%)</li>
+                                <li>Proposal Submitted (Prob: 40%)</li>
+                                <li>Negotiation (Prob: 60%)</li>
+                                <li>Contract Signed (Prob: 90%)</li>
+                                <li>Project Execution (Prob: 100%)</li>
+                            </ul>
+                            <strong>Target:</strong> Minimum 3x pipeline vs quarterly target
+                        </div>
+                    </div>
+
+                    <!-- Industrial RFM -->
+                     <div class="metric-card lag-measure">
+                        <div class="metric-header">
+                            <div class="metric-icon">🏭</div>
+                            <div>
+                                <div class="metric-title">Industrial Customer Value (RFM) <span class="improvement-badge">IMPROVED</span></div>
+                                <span class="metric-type">Lag Measure</span>
+                            </div>
+                        </div>
+                        <div class="metric-description">
+                            Segmentasi customer menggunakan RFM dengan bobot yang dihitung berdasarkan customer group dan cabang. Kemudia di buat segment 1 s/d 4
+                        </div>
+                        <div class="formula">
+                            RFM Bobot = (R × 0.25) + (F × 0.35) + (M × 0.40)
+                        </div>
+                        <div class="metric-details">
+                            Setelah perhitungan bobot, hasil actual transaksi di mapping berdasarkan bobot untuk masing-masing bagian R,F dan M, kemudian hasilnya dijumlah dan menghasilkan score
+                            <table class="scoring-table">
+                                <tr>
+                                    <th>Score</th>
+                                    <th>Segment</th>
+                                    <th>Action</th>
+                                </tr>
+                                <tr class="score-4">
+                                    <td>3.5 - 4.0</td>
+                                    <td>Champions</td>
+                                    <td>Reward & Retain</td>
+                                </tr>
+                                <tr class="score-3">
+                                    <td>2.5 - 3.4</td>
+                                    <td>Loyal</td>
+                                    <td>Upsell & Cross-sell</td>
+                                </tr>
+                                <tr class="score-2">
+                                    <td>1.5 - 2.4</td>
+                                    <td>At Risk</td>
+                                    <td>Re-engagement</td>
+                                </tr>
+                                <tr class="score-1">
+                                    <td>1.0 - 1.4</td>
+                                    <td>Lost</td>
+                                    <td>Win-back Campaign</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!--
+                    <div class="metric-card lag-measure">
+                        <div class="metric-header">
+                            <div class="metric-icon">🏭</div>
+                            <div>
+                                <div class="metric-title">Industrial Customer Value (RFM) <span class="improvement-badge">SPECIALIZED</span></div>
+                                <span class="metric-type">Lag Measure</span>
+                            </div>
+                        </div>
+                        <div class="metric-description">
+                            RFM disesuaikan untuk karakteristik industrial: project-based, high-value, low-frequency
+                        </div>
+                        <div class="formula">
+                            Industrial RFM = (R × 0.15) + (F × 0.25) + (M × 0.60)
+                        </div>
+                        <div class="metric-details">
+                            <strong>Industrial Focus:</strong> Monetary value dominan karena high-ticket transactions
+                            <ul>
+                                <li>Project Value Tier Analysis</li>
+                                <li>Contract Renewal Probability</li>
+                                <li>Cross-selling Potential Score</li>
+                                <li>Strategic Account Classification</li>
+                            </ul>
+                        </div>
+                    </div>
+                -->
+
+                    <!-- Technical Competency -->
+                    <div class="metric-card lead-measure">
+                        <div class="metric-header">
+                            <div class="metric-icon">🔬</div>
+                            <div>
+                                <div class="metric-title">Technical Solution Delivery <span class="improvement-badge">NEW</span></div>
+                                <span class="metric-type">Lead Measure</span>
+                            </div>
+                        </div>
+                        <div class="metric-description">
+                            Indikator ini hanya ada pada segmen industri, meliputi penanganan keluhan, permintaan produk baru, modifikasi produk, dan hasil uji coba produk.
+                        </div>
+                        <div class="metric-details">
+                            <strong>Competency Metrics:</strong>
+                            <ul class="variables-list">
+                                <li><div class="variable-icon">T</div> Complaint Handling</li>
+                                <li><div class="variable-icon">Q</div> Permintaan Produk Baru</li>
+                                <li><div class="variable-icon">C</div> Permintaan Modifikasi Produk</li>
+                                <li><div class="variable-icon">S</div> Hasil Testing Produk</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Account Management -->
+                    <!--
+                    <div class="metric-card lag-measure">
+                        <div class="metric-header">
+                            <div class="metric-icon">🤝</div>
+                            <div>
+                                <div class="metric-title">Strategic Account Health</div>
+                                <span class="metric-type">Lag Measure</span>
+                            </div>
+                        </div>
+                        <div class="metric-description">
+                            Comprehensive account health monitoring untuk key industrial clients
+                        </div>
+                        <div class="metric-details">
+                            <strong>Health Indicators:</strong>
+                            <ul>
+                                <li>Contract Renewal Rate: > 85%</li>
+                                <li>Wallet Share Growth: YoY tracking</li>
+                                <li>Stakeholder Engagement Score</li>
+                                <li>Competitive Displacement Risk</li>
+                                <li>Future Project Pipeline</li>
+                            </ul>
+                        </div>
+                    </div>
+                -->
+
+                    <!-- Industrial Reactivation -->
+                    <div class="metric-card lead-measure">
+                        <div class="metric-header">
+                            <div class="metric-icon">🏪</div>
+                            <div>
+                                <div class="metric-title">NOO & Reaktivasi Outlet <span class="improvement-badge">DEFINED</span></div>
+                                <span class="metric-type">Lead Measure</span>
+                            </div>
+                        </div>
+                        <div class="metric-description">
+                            NOO dihitung dari tanggal registrasi dan bertransaksi di Dynamics AX. Reaktivasi outlet adalah outlet yang tidak bertransaksi dalam periode tertentu lalu kembali aktif.
+                        </div>
+                        <div class="metric-details">
+                            <strong>Poin penting seputar reaktivasi :</strong>
+                            <ul class="variables-list">
+                                <li><div class="variable-icon">1</div> Periode inactive (>= 3 bulan tidak order)</li>
+                                <li><div class="variable-icon">2</div> Historical Value (avg monthly purchase)</li>
+                                <li><div class="variable-icon">3</div> Geographic Accessibility</li>
+                                <li><div class="variable-icon">4</div> Payment History Score</li>
+                            </ul>
+                        </div>
+                        <div class="metric-details">
+                            <strong>NOO Metrics:</strong>
+                            <ul>
+                                <li>NOO per bulan dan wilayah</li>
+                                <li>Bandingkan dengan target NOO per bulan</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--
+                    <div class="metric-card lead-measure">
+                        <div class="metric-header">
+                            <div class="metric-icon">🔄</div>
+                            <div>
+                                <div class="metric-title">Industrial Account Reactivation <span class="improvement-badge">SPECIALIZED</span></div>
+                                <span class="metric-type">Lead Measure</span>
+                            </div>
+                        </div>
+                        <div class="metric-description">
+                            Reaktivasi industrial accounts dengan pendekatan yang berbeda dari retail
+                        </div>
+                        <div class="metric-details">
+                            <strong>Industrial Reactivation Variables (N = 8):</strong>
+                            <ul class="variables-list">
+                                <li><div class="variable-icon">1</div> Project Cycle Completion Status</li>
+                                <li><div class="variable-icon">2</div> Industry Sector Health Index</li>
+                                <li><div class="variable-icon">3</div> Historical Project Value</li>
+                                <li><div class="variable-icon">4</div> Technical Relationship Strength</li>
+                                <li><div class="variable-icon">5</div> Competitor Displacement Risk</li>
+                                <li><div class="variable-icon">6</div> Regulatory/Compliance Status</li>
+                                <li><div class="variable-icon">7</div> Financial Health of Client</li>
+                                <li><div class="variable-icon">8</div> Future Project Pipeline Visibility</li>
+                            </ul>
+                        </div>
+                    </div>
+                    -->
+
+                    <!-- Innovation Adoption -->
+                    <div class="metric-card lead-measure">
+                        <div class="metric-header">
+                            <div class="metric-icon">💡</div>
+                            <div>
+                                <div class="metric-title">Innovation & New Product Adoption <span class="improvement-badge">NEW</span></div>
+                                <span class="metric-type">Lead Measure</span>
+                            </div>
+                        </div>
+                        <div class="metric-description">
+                            Tracking adoption rate produk baru dan solusi inovatif di segmen industrial
+                        </div>
+                        <div class="metric-details">
+                            <strong>Innovation Metrics:</strong>
+                            <ul>
+                                <li>New Product Trial Rate</li>
+                                <li>Innovation Adoption Timeline</li>
+                                <li>R&D Collaboration Projects</li>
+                                <li>Custom Solution Success Rate</li>
+                                <li>Technology Partnership Index</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FRAMEWORK TAB -->
+            <div id="framework" class="tab-content">
+                <div class="section-header">
+                    <h3>🏗️ Implementation Framework</h3>
+                    <p>Struktur implementasi dan governance untuk sales monitoring system</p>
+                </div>
+                <div class="section-content">
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <h4>📊 Data Architecture</h4>
+                            <div class="metric-details">
+                                <strong>Data Sources Integration:</strong>
+                                <ul>
+                                    <li><strong>Primary:</strong> Dynamics AX (transactions, customer master)</li>
+                                    <li><strong>CRM:</strong> MARS/Web Arrow (activities, opportunities)</li>
+                                    <li><strong>External:</strong> Market data, economic indicators</li>
+                                    <li><strong>Web Scraping:</strong> Competitor intelligence, outlet universe</li>
+                                </ul>
+                                
+                                <strong>Data Quality Framework:</strong>
+                                <ul>
+                                    <li>Automated validation rules</li>
+                                    <li>Daily data reconciliation</li>
+                                    <li>Exception reporting</li>
+                                    <li>Data lineage tracking</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="metric-card">
+                            <h4>🔄 Update Frequency & SLA</h4>
+                            <div class="metric-details">
+                                <strong>Real-time Updates:</strong>
+                                <ul>
+                                    <li>Transaction data: Every 4 hours</li>
+                                    <li>Customer activities: Daily</li>
+                                    <li>Pipeline updates: Real-time</li>
+                                </ul>
+                                
+                                <strong>Batch Updates:</strong>
+                                <ul>
+                                    <li>RFM calculations: Weekly</li>
+                                    <li>Market data: Monthly</li>
+                                    <li>Competitive intelligence: Bi-weekly</li>
+                                </ul>
+                                
+                                <strong>SLA Commitments:</strong>
+                                <ul>
+                                    <li>Dashboard availability: 99.5%</li>
+                                    <li>Data freshness: < 4 hours</li>
+                                    <li>Alert response: < 15 minutes</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="metric-card">
+                            <h4>⚠️ Alert & Action Framework</h4>
+                            <div class="metric-details">
+                                <strong>Automated Alerts:</strong>
+                                <table class="scoring-table">
+                                    <tr>
+                                        <th>Alert Type</th>
+                                        <th>Trigger</th>
+                                        <th>Action Required</th>
+                                        <th>Owner</th>
+                                    </tr>
+                                    <tr class="score-1">
+                                        <td>Critical Account Risk</td>
+                                        <td>RFM Score < 2.0</td>
+                                        <td>Immediate intervention</td>
+                                        <td>Sales Manager</td>
+                                    </tr>
+                                    <tr class="score-2">
+                                        <td>Payment Overdue</td>
+                                        <td>> 45 days</td>
+                                        <td>Collection action</td>
+                                        <td>Finance + Sales</td>
+                                    </tr>
+                                    <tr class="score-3">
+                                        <td>Pipeline Shortage</td>
+                                        <td>< 2x quarterly target</td>
+                                        <td>Lead generation</td>
+                                        <td>Sales Rep</td>
+                                    </tr>
+                                    <tr class="score-4">
+                                        <td>Competitor Activity</td>
+                                        <td>Market share loss > 5%</td>
+                                        <td>Competitive response</td>
+                                        <td>Regional Manager</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="metric-card">
+                            <h4>📈 Performance Benchmarking</h4>
+                            <div class="metric-details">
+                                <strong>Internal Benchmarks:</strong>
+                                <ul>
+                                    <li>Historical performance (3-year baseline)</li>
+                                    <li>Peer territory comparison</li>
+                                    <li>Product category benchmarks</li>
+                                    <li>Seasonal adjustment factors</li>
+                                </ul>
+                                
+                                <strong>External Benchmarks:</strong>
+                                <ul>
+                                    <li>Industry growth rates</li>
+                                    <li>Market share by region</li>
+                                    <li>Economic correlation indices</li>
+                                    <li>Best practice metrics</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="metric-card">
+                            <h4>🎯 Action Playbooks</h4>
+                            <div class="metric-details">
+                                <strong>Customer Segment Actions:</strong>
+                                <ul>
+                                    <li><strong>Champions:</strong> VIP treatment, loyalty programs, advocacy</li>
+                                    <li><strong>At Risk:</strong> Personal outreach, special offers, feedback</li>
+                                    <li><strong>Lost:</strong> Win-back campaigns, competitive analysis</li>
+                                </ul>
+                                
+                                <strong>Performance Actions:</strong>
+                                <ul>
+                                    <li><strong>Underperform:</strong> Training, coaching, territory review</li>
+                                    <li><strong>Declining:</strong> Root cause analysis, action planning</li>
+                                    <li><strong>Excelling:</strong> Best practice sharing, expansion</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="metric-card">
+                            <h4>🔒 Governance & Compliance</h4>
+                            <div class="metric-details">
+                                <strong>Access Control:</strong>
+                                <ul>
+                                    <li>Role-based dashboard access</li>
+                                    <li>Data masking for sensitive info</li>
+                                    <li>Audit trail for all changes</li>
+                                    <li>Regular access reviews</li>
+                                </ul>
+                                
+                                <strong>Review Cycles:</strong>
+                                <ul>
+                                    <li><strong>Daily:</strong> Operational metrics review</li>
+                                    <li><strong>Weekly:</strong> Performance vs target</li>
+                                    <li><strong>Monthly:</strong> Strategic metric assessment</li>
+                                    <li><strong>Quarterly:</strong> Framework optimization</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-header">
+                    <h3>🛠️ Technical Implementation</h3>
+                    <p>Technology stack dan implementation roadmap</p>
+                </div>
+                <div class="section-content">
+                    <div class="alert">
+                        <strong>🔧 Technology Stack Recommendations:</strong>
+                        <ul style="margin-top: 10px;">
+                            <li><strong>ETL/Data Pipeline:</strong> Microsoft SSIS</li>
+                            <li><strong>Data Warehouse:</strong> Microsoft SQL Server</li>
+                            <li><strong>Analytics Engine:</strong> Power BI, Excel</li>                         
+                        </ul>
+                    </div>
+                    
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <h4>📅 Implementation Roadmap</h4>
+                            <div class="metric-details">
+                                <strong>Phase 1 (0-3 months) - Foundation:</strong>
+                                <ul>
+                                    <li>Data source integration</li>
+                                    <li>Core metrics calculation</li>
+                                    <li>Basic dashboard development</li>
+                                    <li>User access setup</li>
+                                </ul>
+                                
+                                <strong>Phase 2 (3-6 months) - Enhancement:</strong>
+                                <ul>
+                                    <li>Advanced analytics (RFM, predictive)</li>
+                                    <li>Alert system implementation</li>
+                                    <li>Mobile dashboard</li>
+                                    <li>Training and rollout</li>
+                                </ul>
+                                
+                                <strong>Phase 3 (6-12 months) - Optimization:</strong>
+                                <ul>
+                                    <li>Machine learning integration</li>
+                                    <li>External data sources</li>
+                                    <li>Advanced automation</li>
+                                    <li>Performance optimization</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!--
+                        <div class="metric-card">
+                            <h4>💰 Investment & ROI</h4>
+                            <div class="metric-details">
+                                <strong>Estimated Investment:</strong>
+                                <ul>
+                                    <li>Technology infrastructure: $150K</li>
+                                    <li>Development resources: $200K</li>
+                                    <li>Training and change management: $50K</li>
+                                    <li>Annual maintenance: $75K</li>
+                                </ul>
+                                
+                                <strong>Expected ROI (Year 1):</strong>
+                                <ul>
+                                    <li>Sales efficiency improvement: 15%</li>
+                                    <li>Customer retention increase: 10%</li>
+                                    <li>Collection period reduction: 20%</li>
+                                    <li><strong>Total expected value: $2.5M+</strong></li>
+                                </ul>
+                            </div>
+                        </div>
+                    -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- DASHBOARD TAB -->
+            <div id="dashboard" class="tab-content">
+                <div class="section-header">
+                    <h3>📊 Dashboard Prototype</h3>
+                    <p>Interactive dashboard design untuk monitoring and decision making</p>
+                </div>
+                <div class="section-content">
+                    <div class="dashboard-preview">
+                        <h4>🚀 Executive Dashboard</h4>
+                        <p>High-level KPIs untuk leadership team</p>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0;">
+                            <div style="background: linear-gradient(135deg, #4ecdc4, #44a08d); color: white; padding: 20px; border-radius: 10px;">
+                                <h3>$12.5M</h3>
+                                <p>YTD Revenue</p>
+                                <small>↗️ +15.2% vs target</small>
+                            </div>
+                            <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 20px; border-radius: 10px;">
+                                <h3>3,247</h3>
+                                <p>Active Customers</p>
+                                <small>↗️ +8.5% vs LY</small>
+                            </div>
+                            <div style="background: linear-gradient(135deg, #ff6b6b, #ee5a52); color: white; padding: 20px; border-radius: 10px;">
+                                <h3>2.8x</h3>
+                                <p>Pipeline Ratio</p>
+                                <small>⚠️ Below 3x target</small>
+                            </div>
+                            <div style="background: linear-gradient(135deg, #feca57, #ff9ff3); color: white; padding: 20px; border-radius: 10px;">
+                                <h3>18 days</h3>
+                                <p>Avg Collection</p>
+                                <small>✅ Within target</small>
+                            </div>
+                        </div>
+                        <button class="btn-primary">View Full Executive Dashboard</button>
+                    </div>
+                    
+                    <div class="dashboard-preview">
+                        <h4>👥 Sales Manager Dashboard</h4>
+                        <p>Operational metrics dan team performance</p>
+                        <div style="background: white; border: 1px solid #dee2e6; border-radius: 10px; padding: 20px; margin: 15px 0;">
+                            <h5>🎯 Team Performance Matrix</h5>
+                            <table class="scoring-table">
+                                <tr>
+                                    <th>Sales Rep</th>
+                                    <th>YTD Achievement</th>
+                                    <th>Pipeline Health</th>
+                                    <th>Customer NPS</th>
+                                    <th>Status</th>
+                                </tr>
+                                <tr class="score-4">
+                                    <td>John Doe</td>
+                                    <td>112%</td>
+                                    <td>3.2x</td>
+                                    <td>8.5</td>
+                                    <td>Excellent</td>
+                                </tr>
+                                <tr class="score-3">
+                                    <td>Jane Smith</td>
+                                    <td>98%</td>
+                                    <td>2.8x</td>
+                                    <td>7.2</td>
+                                    <td>On Track</td>
+                                </tr>
+                                <tr class="score-2">
+                                    <td>Mike Johnson</td>
+                                    <td>87%</td>
+                                    <td>2.1x</td>
+                                    <td>6.8</td>
+                                    <td>Needs Support</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <button class="btn-primary">View Sales Manager Dashboard</button>
+                    </div>
+                    
+                    <div class="dashboard-preview">
+                        <h4>📱 Mobile Sales Rep App</h4>
+                        <p>On-the-go access untuk sales representatives</p>
+                        <div style="display: flex; justify-content: center; gap: 20px; margin: 20px 0;">
+                            <div style="width: 200px; height: 350px; background: #1e3c72; border-radius: 20px; color: white; padding: 20px; position: relative;">
+                                <div style="background: white; height: 60px; border-radius: 10px; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; color: #1e3c72; font-weight: bold;">
+                                    Customer 360°
+                                </div>
+                                <div style="background: rgba(255,255,255,0.1); padding: 10px; border-radius: 8px; margin-bottom: 10px;">
+                                    <small>Today's Visits: 5/7</small><br>
+                                    <small>Pipeline: $125K</small>
+                                </div>
+                                <div style="background: rgba(255,255,255,0.1); padding: 10px; border-radius: 8px; margin-bottom: 10px;">
+                                    <small>Alerts: 2 urgent</small><br>
+                                    <small>Follow-ups: 3</small>
+                                </div>
+                                <div style="position: absolute; bottom: 20px; left: 20px; right: 20px;">
+                                    <div style="background: #4ecdc4; padding: 8px; border-radius: 15px; text-align: center; font-size: 0.8rem;">
+                                        Quick Actions
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="width: 200px; height: 350px; background: #4ecdc4; border-radius: 20px; color: white; padding: 20px; position: relative;">
+                                <div style="background: white; height: 60px; border-radius: 10px; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; color: #4ecdc4; font-weight: bold;">
+                                    Real-time Metrics
+                                </div>
+                                <div style="background: rgba(255,255,255,0.2); padding: 10px; border-radius: 8px; margin-bottom: 10px;">
+                                    <small>MTD Achievement</small><br>
+                                    <strong>94% ($47K)</strong>
+                                </div>
+                                <div style="background: rgba(255,255,255,0.2); padding: 10px; border-radius: 8px; margin-bottom: 10px;">
+                                    <small>Active Customers</small><br>
+                                    <strong>156 (↗️ +12)</strong>
+                                </div>
+                                <div style="position: absolute; bottom: 20px; left: 20px; right: 20px;">
+                                    <div style="background: #1e3c72; padding: 8px; border-radius: 15px; text-align: center; font-size: 0.8rem;">
+                                        Sync Data
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn-primary">View Mobile App Mockup</button>
+                    </div>
+                    
+                    <div class="alert alert-success">
+                        <strong>🎯 Dashboard Features:</strong>
+                        <ul style="margin-top: 10px;">
+                            <li><strong>Responsive Design:</strong> Optimal viewing pada desktop, tablet, dan mobile</li>
+                            <li><strong>Real-time Updates:</strong> Live data dengan WebSocket connections</li>
+                            <li><strong>Interactive Filters:</strong> Drill-down capability by region, product, time period</li>
+                            <li><strong>Export Capabilities:</strong> PDF reports, Excel data export</li>
+                            <li><strong>Offline Mode:</strong> Cached data untuk mobile app</li>
+                            <li><strong>Custom Alerts:</strong> Personalized notification preferences</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.nav-tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+        
+        // Add some interactivity to metric cards
+        document.addEventListener('DOMContentLoaded', function() {
+            const metricCards = document.querySelectorAll('.metric-card');
+            metricCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    // Add pulse animation on click
+                    this.style.transform = 'scale(1.02)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 200);
+                });
+            });
+            
+            // Simulate real-time updates for dashboard
+            if (document.getElementById('dashboard')) {
+                setInterval(() => {
+                    const randomCards = document.querySelectorAll('.dashboard-preview h3');
+                    randomCards.forEach(card => {
+                        if (Math.random() > 0.8) {
+                            card.style.animation = 'pulse 1s ease-in-out';
+                            setTimeout(() => {
+                                card.style.animation = '';
+                            }, 1000);
+                        }
+                    });
+                }, 5000);
+            }
+        });
+    </script>
+</body>
+</html>
